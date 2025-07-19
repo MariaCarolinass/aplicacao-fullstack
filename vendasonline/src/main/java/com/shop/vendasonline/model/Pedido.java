@@ -36,7 +36,7 @@ public class Pedido {
     private Long id;
 
     @Column(name = "numero_pedido", nullable = false, unique = true)
-    private String numeroPedido;
+    private Integer numeroPedido;
 
     @Column(name = "data_pedido")
     private LocalDate dataPedido;

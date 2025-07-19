@@ -38,7 +38,7 @@ public class Cliente {
     @Column(name = "telefone", nullable = false)
     private String telefone;
     
-    @Column(name = "endereco", nullable = false, length = 150)
+    @Column(name = "endereco", length = 150)
     private String endereco;
     
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)

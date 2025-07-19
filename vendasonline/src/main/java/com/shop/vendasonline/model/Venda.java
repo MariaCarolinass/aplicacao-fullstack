@@ -1,7 +1,6 @@
 package com.shop.vendasonline.model;
 
 import java.time.LocalDate;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -45,8 +44,5 @@ public class Venda {
     @OneToOne
     @JoinColumn(name = "pedido_id", nullable = false, unique = true)
     private Pedido pedido;
-
-    @OneToOne(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Pagamento pagamento;
     
 }

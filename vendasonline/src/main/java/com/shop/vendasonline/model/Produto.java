@@ -28,6 +28,9 @@ public class Produto {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "codigo", nullable = false, unique = true)
+    private String codigo;
+
     @Column(name = "nome", nullable = false)
     private String nome;
 

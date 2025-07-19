@@ -1,6 +1,7 @@
 package com.shop.vendasonline.service;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.shop.vendasonline.model.Venda;
@@ -27,6 +28,10 @@ public class VendaService {
 
     public List<Venda> findAllVendas() {
         return vendaRepository.findAll();
+    }
+
+    public Page<Venda> findAllVendas(Pageable pageable) {
+        return vendaRepository.findAll(pageable);
     }
 
     public void updateVenda(Venda venda) {

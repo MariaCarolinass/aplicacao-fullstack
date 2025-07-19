@@ -1,6 +1,10 @@
 package com.shop.vendasonline.controller;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,6 +43,17 @@ public class ClienteController {
     @GetMapping
     public ResponseEntity<List<Cliente>> listarTodos() {
         return ResponseEntity.ok(clienteService.findAllClientes());
+    }
+
+    @GetMapping("/paginado")
+    public ResponseEntity<Page<Cliente>> listarTodos(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "nome") String sortBy
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        Page<Cliente> clientesPage = clienteService.findAllClientes(pageable);
+        return ResponseEntity.ok(clientesPage);
     }
 
     @PutMapping("/{id}")

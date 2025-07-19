@@ -69,12 +69,7 @@ public class ProdutoController {
         Produto produto = produtoService.findByCodigo(codigo);
         return produto != null ? ResponseEntity.ok(produto) : ResponseEntity.notFound().build();
     }
-
-    @GetMapping("/pedido/{pedidoId}")
-    public ResponseEntity<List<Produto>> buscarPorPedido(@PathVariable Long pedidoId) {
-        return ResponseEntity.ok(produtoService.findByPedidoId(pedidoId));
-    }
-
+    
     @GetMapping("/contar")
     public ResponseEntity<Long> contarProdutos() {
         return ResponseEntity.ok(produtoService.countProdutos());

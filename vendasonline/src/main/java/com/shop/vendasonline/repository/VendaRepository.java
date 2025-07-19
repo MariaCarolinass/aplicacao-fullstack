@@ -8,17 +8,9 @@ import com.shop.vendasonline.model.Venda;
 
 @Repository
 public interface VendaRepository extends JpaRepository<Venda, Long> {
-    
-    List<Venda> findByClienteId(Long clienteId);
 
     List<Venda> findAllByOrderByDataVendaDesc(Pageable pageable);
 
     List<Venda> findAllByOrderByDataVendaAsc(Pageable pageable);
-
-    List<Venda> findByClienteIdOrderByDataVendaDesc(Long clienteId, Pageable pageable);
-
-    List<Venda> findAllByOrderByDataVendaDesc();
-
-    List<Venda> findAllByOrderByDataVendaAsc();
 
 }

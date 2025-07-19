@@ -50,10 +50,6 @@ public class VendaService {
         vendaRepository.deleteAll();
     }
 
-    public List<Venda> findByClienteId(Long clienteId) {
-        return vendaRepository.findByClienteId(clienteId);
-    }
-
     public List<Venda> encontrarVendasMaisRecentes(int page, int size) {
         return vendaRepository.findAllByOrderByDataVendaDesc(Pageable.ofSize(size).withPage(page));
     }
@@ -61,17 +57,5 @@ public class VendaService {
     public List<Venda> encontrarVendasMaisAntigas(int page, int size) {
         return vendaRepository.findAllByOrderByDataVendaAsc(Pageable.ofSize(size).withPage(page));
     }
-
-    public List<Venda> encontrarVendasPorCliente(Long clienteId, int page, int size) {
-        return vendaRepository.findByClienteIdOrderByDataVendaDesc(clienteId, Pageable.ofSize(size).withPage(page));
-    }
-
-    public List<Venda> findAllByOrderByDataVendaDesc() {
-        return vendaRepository.findAllByOrderByDataVendaDesc();
-    }
-
-    public List<Venda> findAllByOrderByDataVendaAsc() {
-        return vendaRepository.findAllByOrderByDataVendaAsc();
-    }
-
+    
 }

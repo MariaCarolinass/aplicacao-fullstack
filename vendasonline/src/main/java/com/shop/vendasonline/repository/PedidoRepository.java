@@ -14,9 +14,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
     List<Pedido> findByClienteId(Long clienteId);
 
-    List<Pedido> findByProdutoId(Long produtoId);
-
-    Pedido findByNumeroPedido(String numeroPedido);
+    Pedido findByNumeroPedido(Integer numeroPedido);
 
     long countByStatus(Status status);
     

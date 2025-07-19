@@ -69,13 +69,6 @@ public class VendaController {
         return ResponseEntity.ok(vendaService.findAllVendas());
     }
 
-    @GetMapping("/cliente/{clienteId}")
-    public ResponseEntity<List<Venda>> buscarPorCliente(@PathVariable Long clienteId,
-                                                        @RequestParam(defaultValue = "0") int page,
-                                                        @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(vendaService.encontrarVendasPorCliente(clienteId, page, size));
-    }
-
     @GetMapping("/mais-recentes")
     public ResponseEntity<List<Venda>> vendasMaisRecentes(@RequestParam(defaultValue = "0") int page,
                                                           @RequestParam(defaultValue = "10") int size) {

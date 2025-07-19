@@ -46,10 +46,6 @@ public class ProdutoService {
         return produtoRepository.findByCodigo(codigo);
     }
 
-    public List<Produto> findByPedidoId(Long pedidoId) {
-        return produtoRepository.findByPedidoId(pedidoId);
-    }
-
     public long countProdutos() {
         return produtoRepository.count();
     }

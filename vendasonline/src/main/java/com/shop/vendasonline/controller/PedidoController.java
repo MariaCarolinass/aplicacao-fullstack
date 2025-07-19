@@ -75,13 +75,8 @@ public class PedidoController {
         return ResponseEntity.ok(pedidoService.findByClienteId(clienteId));
     }
 
-    @GetMapping("/produto/{produtoId}")
-    public ResponseEntity<List<Pedido>> buscarPorProduto(@PathVariable Long produtoId) {
-        return ResponseEntity.ok(pedidoService.findByProdutoId(produtoId));
-    }
-
     @GetMapping("/numero")
-    public ResponseEntity<Pedido> buscarPorNumero(@RequestParam String numeroPedido) {
+    public ResponseEntity<Pedido> buscarPorNumero(@RequestParam Integer numeroPedido) {
         Pedido pedido = pedidoService.findByNumeroPedido(numeroPedido);
         return pedido != null ? ResponseEntity.ok(pedido) : ResponseEntity.notFound().build();
     }

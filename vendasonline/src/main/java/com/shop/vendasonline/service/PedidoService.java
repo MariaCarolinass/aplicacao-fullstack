@@ -53,11 +53,7 @@ public class PedidoService {
         return pedidoRepository.findByClienteId(clienteId);
     }
 
-    public List<Pedido> findByProdutoId(Long produtoId) {
-        return pedidoRepository.findByProdutoId(produtoId);
-    }
-
-    public Pedido findByNumeroPedido(String numeroPedido) {
+    public Pedido findByNumeroPedido(Integer numeroPedido) {
         return pedidoRepository.findByNumeroPedido(numeroPedido);
     }
 

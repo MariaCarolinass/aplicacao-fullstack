@@ -6,9 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import com.shop.vendasonline.model.Cliente;
 import com.shop.vendasonline.model.Pedido;
 import com.shop.vendasonline.model.Status;
+import com.shop.vendasonline.repository.ClienteRepository;
 import com.shop.vendasonline.repository.PedidoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class PedidoService {
     
     private final PedidoRepository pedidoRepository;
+    private final ClienteRepository clienteRepository;
 
     public Pedido savePedido(Pedido pedido) {
         return pedidoRepository.save(pedido);
@@ -47,13 +51,16 @@ public class PedidoService {
         Pedido pedidoExistente = pedidoRepository.findById(pedido.getId())
             .orElseThrow(() -> new IllegalArgumentException("Pedido not found with id: " + pedido.getId()));
         
+        Cliente cliente = clienteRepository.findById(pedido.getCliente().getId())
+            .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
+        
+        pedidoExistente.setCliente(cliente);
         pedidoExistente.setStatus(pedido.getStatus());
-        pedidoExistente.setCliente(pedido.getCliente());
         pedidoExistente.setProdutos(pedido.getProdutos());
         pedidoExistente.setDataPedido(pedido.getDataPedido());
         pedidoExistente.setNumeroPedido(pedido.getNumeroPedido());
         pedidoExistente.setObservacoes(pedido.getObservacoes());
-        
+
         return pedidoRepository.save(pedidoExistente);
     }
 
@@ -64,11 +71,7 @@ public class PedidoService {
     public Pedido findByNumeroPedido(Integer numeroPedido) {
         return pedidoRepository.findByNumeroPedido(numeroPedido);
     }
-
-    public long countByStatus(Status status) {
-        return pedidoRepository.countByStatus(status);
-    }
-
+    
     public long count() {
         return pedidoRepository.count();
     }

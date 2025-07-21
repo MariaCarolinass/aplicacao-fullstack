@@ -5,8 +5,11 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import com.shop.vendasonline.model.Pedido;
 import com.shop.vendasonline.model.Venda;
+import com.shop.vendasonline.repository.PedidoRepository;
 import com.shop.vendasonline.repository.VendaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class VendaService {
     
     private final VendaRepository vendaRepository;
+    private final PedidoRepository pedidoRepository;
 
     public Venda saveVenda(Venda venda) {
         return vendaRepository.save(venda);
@@ -41,6 +45,10 @@ public class VendaService {
         Venda vendaExistente = vendaRepository.findById(venda.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Venda not found with id: " + venda.getId()));
 
+        Pedido pedido = pedidoRepository.findById(venda.getPedido().getId())
+            .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
+        
+        vendaExistente.setPedido(pedido);
         vendaExistente.setDataVenda(venda.getDataVenda());
         vendaExistente.setDataCancelamento(venda.getDataCancelamento());
         vendaExistente.setMotivoCancelamento(venda.getMotivoCancelamento());

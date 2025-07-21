@@ -2,6 +2,7 @@ package com.shop.vendasonline.model;
 
 import java.time.LocalDate;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -50,7 +51,7 @@ public class Pedido {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "cliente_id", nullable = false)
-    @JsonIgnore
+    @JsonBackReference
     private Cliente cliente;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)

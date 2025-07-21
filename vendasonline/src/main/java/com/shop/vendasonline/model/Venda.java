@@ -1,7 +1,7 @@
 package com.shop.vendasonline.model;
 
 import java.time.LocalDate;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,9 +42,9 @@ public class Venda {
     @Column(name = "observacoes", length = 200)
     private String observacoes;
 
-    @OneToOne
+    @OneToOne(optional = false)
     @JoinColumn(name = "pedido_id", nullable = false, unique = true)
-    @JsonIgnore
+    @JsonManagedReference
     private Pedido pedido;
     
 }

@@ -1,6 +1,7 @@
 package com.shop.vendasonline.controller;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/clientes")
 public class ClienteController {
 
-    private ClienteService clienteService;
+    private final ClienteService clienteService;
 
     @PostMapping
     public ResponseEntity<Cliente> criarCliente(@Valid @RequestBody Cliente cliente) {
@@ -35,8 +36,8 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> buscarClientePorId(@PathVariable Long id) {
-        Cliente cliente = clienteService.findClienteById(id);
+    public ResponseEntity<Optional<Cliente>> buscarClientePorId(@PathVariable Long id) {
+        Optional<Cliente> cliente = clienteService.findClienteById(id);
         return cliente != null ? ResponseEntity.ok(cliente) : ResponseEntity.notFound().build();
     }
 
@@ -60,8 +61,8 @@ public class ClienteController {
     public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long id, @Valid @RequestBody Cliente clienteAtualizado) {
         clienteAtualizado.setId(id);
         try {
-            clienteService.updateCliente(clienteAtualizado);
-            return ResponseEntity.ok(clienteAtualizado);
+            Cliente cliente = clienteService.updateCliente(clienteAtualizado);
+            return ResponseEntity.ok(cliente);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }

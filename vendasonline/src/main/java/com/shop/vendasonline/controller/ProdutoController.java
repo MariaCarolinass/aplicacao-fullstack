@@ -1,6 +1,8 @@
 package com.shop.vendasonline.controller;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,8 +18,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.shop.vendasonline.dto.ProdutoDTO;
+import com.shop.vendasonline.mapper.ProdutoMapper;
+import com.shop.vendasonline.model.Pedido;
 import com.shop.vendasonline.model.Produto;
+import com.shop.vendasonline.service.PedidoService;
 import com.shop.vendasonline.service.ProdutoService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -27,22 +34,48 @@ import lombok.RequiredArgsConstructor;
 public class ProdutoController {
     
     private final ProdutoService produtoService;
+    private final PedidoService pedidoService;
+    private final ProdutoMapper produtoMapper;
     
     @PostMapping
-    public ResponseEntity<Void> criarProduto(@Valid @RequestBody Produto produto) {
-        produtoService.saveProduto(produto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ProdutoDTO> criarProduto(@Valid @RequestBody ProdutoDTO dto) {
+        Produto produto = produtoMapper.toEntity(dto);
+        
+        if (dto.getPedido() == null || dto.getPedido().getId() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Pedido pedido = pedidoService.findPedidoById(dto.getPedido().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado"));
+        produto.setPedido(pedido);
+
+        Produto salvo = produtoService.saveProduto(produto);
+        ProdutoDTO responseDto = produtoMapper.toDto(salvo);
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Produto> buscarPorId(@PathVariable Long id) {
-        Produto produto = produtoService.findProdutoById(id);
+    public ResponseEntity<Optional<Produto>> buscarPorId(@PathVariable Long id) {
+        Optional<Produto> produto = produtoService.findProdutoById(id);
         return produto != null ? ResponseEntity.ok(produto) : ResponseEntity.notFound().build();
     }
 
     @GetMapping
     public ResponseEntity<List<Produto>> listarTodos() {
         return ResponseEntity.ok(produtoService.findAllProdutos());
+    }
+    
+    @GetMapping("/count-produtos-por-pedido/{pedidoId}")
+    public ResponseEntity<Long> countProdutosPorPedido(@PathVariable Long pedidoId) {
+        long total = produtoService.countProdutosPorPedido(pedidoId);
+        return ResponseEntity.ok(total);
+    }
+
+    @GetMapping("/sum-preco-produtos-por-pedido/{pedidoId}")
+    public ResponseEntity<Double> sumPrecoProdutosPorPedido(@PathVariable Long pedidoId) {
+        Double total = produtoService.sumPrecoProdutosPorPedido(pedidoId);
+        return ResponseEntity.ok(total);
     }
 
     @GetMapping("/paginado")
@@ -56,11 +89,11 @@ public class ProdutoController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<Void> atualizarProduto(@PathVariable Long id, @Valid @RequestBody Produto produtoAtualizado) {
+    public ResponseEntity<Produto> atualizarProduto(@PathVariable Long id, @Valid @RequestBody Produto produtoAtualizado) {
         produtoAtualizado.setId(id);
         try {
-            produtoService.updateProduto(produtoAtualizado);
-            return ResponseEntity.ok().build();
+            Produto produto = produtoService.updateProduto(produtoAtualizado);
+            return ResponseEntity.ok(produto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }

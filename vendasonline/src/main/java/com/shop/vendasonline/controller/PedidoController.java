@@ -1,6 +1,7 @@
 package com.shop.vendasonline.controller;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,9 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.shop.vendasonline.dto.PedidoDTO;
+import com.shop.vendasonline.mapper.PedidoMapper;
+import com.shop.vendasonline.model.Cliente;
 import com.shop.vendasonline.model.Pedido;
 import com.shop.vendasonline.model.Status;
+import com.shop.vendasonline.service.ClienteService;
 import com.shop.vendasonline.service.PedidoService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -27,17 +33,31 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/pedidos")
 public class PedidoController {
     
-    private PedidoService pedidoService;
-
+    private final PedidoService pedidoService;
+    private final ClienteService clienteService;
+    private final PedidoMapper pedidoMapper;
+    
     @PostMapping
-    public ResponseEntity<Pedido> criarPedido(@Valid @RequestBody Pedido pedido) {
-        Pedido novoPedido = pedidoService.savePedido(pedido);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoPedido);
+    public ResponseEntity<PedidoDTO> criarPedido(@Valid @RequestBody PedidoDTO dto) {
+        Pedido pedido = pedidoMapper.toEntity(dto);
+
+        if (dto.getCliente() == null || dto.getCliente().getId() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Cliente cliente = clienteService.findClienteById(dto.getCliente().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
+        pedido.setCliente(cliente);
+
+        Pedido salvo = pedidoService.savePedido(pedido);
+        PedidoDTO responseDto = pedidoMapper.toDto(salvo);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> buscarPorId(@PathVariable Long id) {
-        Pedido pedido = pedidoService.findPedidoById(id);
+    public ResponseEntity<Optional<Pedido>> buscarPorId(@PathVariable Long id) {
+        Optional<Pedido> pedido = pedidoService.findPedidoById(id);
         return pedido != null ? ResponseEntity.ok(pedido) : ResponseEntity.notFound().build();
     }
 
@@ -60,8 +80,8 @@ public class PedidoController {
     public ResponseEntity<Pedido> atualizarPedido(@PathVariable Long id, @Valid @RequestBody Pedido pedidoAtualizado) {
         pedidoAtualizado.setId(id);
         try {
-            pedidoService.updatePedido(pedidoAtualizado);
-            return ResponseEntity.ok(pedidoAtualizado);
+            Pedido pedido = pedidoService.updatePedido(pedidoAtualizado);
+            return ResponseEntity.ok(pedido);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }

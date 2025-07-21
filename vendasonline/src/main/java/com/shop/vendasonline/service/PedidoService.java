@@ -56,7 +56,6 @@ public class PedidoService {
         
         pedidoExistente.setCliente(cliente);
         pedidoExistente.setStatus(pedido.getStatus());
-        pedidoExistente.setProdutos(pedido.getProdutos());
         pedidoExistente.setDataPedido(pedido.getDataPedido());
         pedidoExistente.setNumeroPedido(pedido.getNumeroPedido());
         pedidoExistente.setObservacoes(pedido.getObservacoes());

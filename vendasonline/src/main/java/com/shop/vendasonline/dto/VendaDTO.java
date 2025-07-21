@@ -13,8 +13,7 @@ public class VendaDTO {
     @NotNull(message = "A data da venda não pode ser nula")
     @PastOrPresent(message = "A data da venda não pode estar no futuro")
     private LocalDate dataVenda;
-
-    @NotNull(message = "A data de cancelamento não pode ser nula")
+    
     @PastOrPresent(message = "A data de cancelamento não pode estar no futuro")
     private LocalDate dataCancelamento;
 

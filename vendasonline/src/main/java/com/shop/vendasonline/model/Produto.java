@@ -1,6 +1,6 @@
 package com.shop.vendasonline.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,7 +46,7 @@ public class Produto {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "pedido_id", nullable = false)
-    @JsonManagedReference
+    @JsonIgnoreProperties({"pedidos"})
     private Pedido pedido;
 
 }

@@ -26,7 +26,7 @@ export function VendaForm({
     setDataCancelamento(initialData.dataCancelamento || "");
     setMotivoCancelamento(initialData.motivoCancelamento || "");
     setObservacoes(initialData.observacoes || "");
-    setPedidoId(initialData.pedidoId ? String(initialData.pedidoId) : "");
+    setPedidoId(initialData.pedido?.id ? String(initialData.pedido.id) : "");
   }, [initialData]);
 
   const limparFormulario = () => {

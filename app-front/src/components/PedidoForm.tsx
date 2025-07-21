@@ -32,7 +32,7 @@ export function PedidoForm({
     setDataPedido(initialData.dataPedido || "");
     setObservacoes(initialData.observacoes || "");
     setStatus(initialData.status || "EM_ANDAMENTO");
-    setClienteId(initialData.clienteId ? String(initialData.clienteId) : "");
+    setClienteId(initialData.cliente?.id ? String(initialData.cliente.id) : "");
   }, [initialData]);
 
   const limparFormulario = () => {

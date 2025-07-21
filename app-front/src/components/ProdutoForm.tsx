@@ -28,7 +28,7 @@ export function ProdutoForm({
     setDescricao(initialData.descricao || "");
     setPreco(initialData.preco ?? "");
     setDesconto(initialData.desconto ?? "");
-    setPedidoId(initialData.pedidoId ? String(initialData.pedidoId) : "");
+    setPedidoId(initialData.pedido?.id ? String(initialData.pedido.id) : "");
   }, [initialData]);
 
   const limparFormulario = () => {

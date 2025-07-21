@@ -21,9 +21,11 @@ public class ProdutoDTO {
     private Double preco;
 
     private Double desconto;
-
+    
     private Long clienteId;
-
+    
+    private String clienteNome;
+    
     private Integer numeroPedido;
 
     private PedidoDTO pedido;

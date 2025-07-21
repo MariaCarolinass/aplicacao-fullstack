@@ -23,6 +23,8 @@ public class VendaDTO {
     
     private Long clienteId;
 
+    private String clienteNome;
+    
     private Integer numeroPedido;
 
     private PedidoDTO pedido;

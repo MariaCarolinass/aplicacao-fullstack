@@ -9,6 +9,7 @@ import com.shop.vendasonline.model.Pedido;
 import com.shop.vendasonline.model.Status;
 import com.shop.vendasonline.repository.ClienteRepository;
 import com.shop.vendasonline.repository.PedidoRepository;
+import com.shop.vendasonline.repository.VendaRepository;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class RelatorioService {
 
     private final PedidoRepository pedidoRepository;
     private final ClienteRepository clienteRepository;
+    private final VendaRepository vendaRepository;
     
     public RelatorioDTO gerarRelatorio() {
         long totalPedidos = pedidoRepository.count();
@@ -26,7 +28,7 @@ public class RelatorioService {
             valorTotal = 0.0;
         }
         
-        long totalProdutos = pedidoRepository.countByStatus(Status.FINALIZADO);
+        long totalProdutos = vendaRepository.count();
         
         RelatorioDTO relatorio = new RelatorioDTO();
         relatorio.setTotalPedidos(totalPedidos);

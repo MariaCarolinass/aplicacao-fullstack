@@ -1,6 +1,7 @@
 package com.shop.vendasonline.model;
 
 import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -43,6 +44,7 @@ public class Venda {
 
     @OneToOne
     @JoinColumn(name = "pedido_id", nullable = false, unique = true)
+    @JsonIgnore
     private Pedido pedido;
     
 }

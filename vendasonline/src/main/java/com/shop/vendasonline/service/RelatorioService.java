@@ -19,11 +19,19 @@ public class RelatorioService {
     private final ClienteRepository clienteRepository;
     
     public RelatorioDTO gerarRelatorio() {
-        RelatorioDTO relatorio = new RelatorioDTO();
+        long totalPedidos = pedidoRepository.count();
         
-        relatorio.setTotalPedidos(pedidoRepository.count());
-        relatorio.setValorTotalFaturado(pedidoRepository.sumValorTotal());
-        relatorio.setQuantidadeProdutosVendidos(pedidoRepository.countByStatus(Status.FINALIZADO));
+        Double valorTotal = pedidoRepository.sumValorTotal();
+        if (valorTotal == null) {
+            valorTotal = 0.0;
+        }
+        
+        long totalProdutos = pedidoRepository.countByStatus(Status.FINALIZADO);
+        
+        RelatorioDTO relatorio = new RelatorioDTO();
+        relatorio.setTotalPedidos(totalPedidos);
+        relatorio.setValorTotalFaturado(valorTotal);
+        relatorio.setQuantidadeProdutosVendidos(totalProdutos);
         
         return relatorio;
     }

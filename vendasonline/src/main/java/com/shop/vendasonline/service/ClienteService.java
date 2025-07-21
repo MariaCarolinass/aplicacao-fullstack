@@ -1,11 +1,13 @@
 package com.shop.vendasonline.service;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.shop.vendasonline.model.Cliente;
 import com.shop.vendasonline.repository.ClienteRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -18,8 +20,8 @@ public class ClienteService {
         clienteRepository.save(cliente);
     }
 
-    public Cliente findClienteById(Long id) {
-        return clienteRepository.findById(id).orElse(null);
+    public Optional<Cliente> findClienteById(Long id) {
+        return clienteRepository.findById(id);
     }
 
     public void deleteCliente(Long id) {
@@ -34,17 +36,17 @@ public class ClienteService {
         return clienteRepository.findAll(pageable);
     }
 
-    public void updateCliente(Cliente cliente) {
+    @Transactional
+    public Cliente updateCliente(Cliente cliente) {
         Cliente clienteExistente = clienteRepository.findById(cliente.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Cliente not found with id: " + cliente.getId()));
+            .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
         
         clienteExistente.setNome(cliente.getNome());
         clienteExistente.setEmail(cliente.getEmail());
         clienteExistente.setTelefone(cliente.getTelefone());
         clienteExistente.setEndereco(cliente.getEndereco());
-        clienteExistente.setPedidos(cliente.getPedidos());
         
-        clienteRepository.save(clienteExistente);
+        return clienteRepository.save(clienteExistente);
     }
 
     public List<Cliente> encontrarClientesMaisAtivos(int page, int size) {

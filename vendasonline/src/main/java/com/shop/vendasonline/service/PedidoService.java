@@ -1,6 +1,7 @@
 package com.shop.vendasonline.service;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.shop.vendasonline.model.Pedido;
 import com.shop.vendasonline.model.Status;
 import com.shop.vendasonline.repository.PedidoRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -20,8 +22,8 @@ public class PedidoService {
         return pedidoRepository.save(pedido);
     }
 
-    public Pedido findPedidoById(Long id) {
-        return pedidoRepository.findById(id).orElse(null);
+    public Optional<Pedido> findPedidoById(Long id) {
+        return pedidoRepository.findById(id);
     }
 
     public List<Pedido> findByStatus(Status status) {
@@ -40,9 +42,10 @@ public class PedidoService {
         return pedidoRepository.findAll(pageable);
     }
 
-    public void updatePedido(Pedido pedido) {
+    @Transactional
+    public Pedido updatePedido(Pedido pedido) {
         Pedido pedidoExistente = pedidoRepository.findById(pedido.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Pedido not found with id: " + pedido.getId()));
+            .orElseThrow(() -> new IllegalArgumentException("Pedido not found with id: " + pedido.getId()));
         
         pedidoExistente.setStatus(pedido.getStatus());
         pedidoExistente.setCliente(pedido.getCliente());
@@ -50,9 +53,8 @@ public class PedidoService {
         pedidoExistente.setDataPedido(pedido.getDataPedido());
         pedidoExistente.setNumeroPedido(pedido.getNumeroPedido());
         pedidoExistente.setObservacoes(pedido.getObservacoes());
-        pedidoExistente.setVenda(pedido.getVenda());
-
-        pedidoRepository.save(pedidoExistente);
+        
+        return pedidoRepository.save(pedidoExistente);
     }
 
     public List<Pedido> findByClienteId(Long clienteId) {

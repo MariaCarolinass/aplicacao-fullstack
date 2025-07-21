@@ -1,11 +1,13 @@
 package com.shop.vendasonline.service;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.shop.vendasonline.model.Venda;
 import com.shop.vendasonline.repository.VendaRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -14,12 +16,12 @@ public class VendaService {
     
     private final VendaRepository vendaRepository;
 
-    public void saveVenda(Venda venda) {
-        vendaRepository.save(venda);
+    public Venda saveVenda(Venda venda) {
+        return vendaRepository.save(venda);
     }
 
-    public Venda findVendaById(Long id) {
-        return vendaRepository.findById(id).orElse(null);
+    public Optional<Venda> findVendaById(Long id) {
+        return vendaRepository.findById(id);
     }
 
     public void deleteVenda(Long id) {
@@ -34,7 +36,8 @@ public class VendaService {
         return vendaRepository.findAll(pageable);
     }
 
-    public void updateVenda(Venda venda) {
+    @Transactional
+    public Venda updateVenda(Venda venda) {
         Venda vendaExistente = vendaRepository.findById(venda.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Venda not found with id: " + venda.getId()));
 
@@ -42,9 +45,8 @@ public class VendaService {
         vendaExistente.setDataCancelamento(venda.getDataCancelamento());
         vendaExistente.setMotivoCancelamento(venda.getMotivoCancelamento());
         vendaExistente.setObservacoes(venda.getObservacoes());
-        vendaExistente.setPedido(venda.getPedido());
 
-        vendaRepository.save(vendaExistente);
+        return vendaRepository.save(vendaExistente);
     }
 
     public long countVendas() {

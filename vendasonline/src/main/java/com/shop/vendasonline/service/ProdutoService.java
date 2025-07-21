@@ -1,11 +1,13 @@
 package com.shop.vendasonline.service;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.shop.vendasonline.model.Produto;
 import com.shop.vendasonline.repository.ProdutoRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -14,12 +16,12 @@ public class ProdutoService {
     
     private final ProdutoRepository produtoRepository;
 
-    public void saveProduto(Produto produto) {
-        produtoRepository.save(produto);
+    public Produto saveProduto(Produto produto) {
+        return produtoRepository.save(produto);
     }
 
-    public Produto findProdutoById(Long id) {
-        return produtoRepository.findById(id).orElse(null);
+    public Optional<Produto> findProdutoById(Long id) {
+        return produtoRepository.findById(id);
     }
 
     public void deleteProduto(Long id) {
@@ -34,18 +36,18 @@ public class ProdutoService {
         return produtoRepository.findAll(pageable);
     }
 
-    public void updateProduto(Produto produto) {
+    @Transactional
+    public Produto updateProduto(Produto produto) {
         Produto produtoExistente = produtoRepository.findById(produto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Produto not found with id: " + produto.getId()));
+            .orElseThrow(() -> new IllegalArgumentException("Produto not found with id: " + produto.getId()));
         
         produtoExistente.setCodigo(produto.getCodigo());
         produtoExistente.setNome(produto.getNome());
         produtoExistente.setDescricao(produto.getDescricao());
         produtoExistente.setPreco(produto.getPreco());
         produtoExistente.setDesconto(produto.getDesconto());
-        produtoExistente.setPedido(produto.getPedido());
         
-        produtoRepository.save(produtoExistente);
+        return produtoRepository.save(produtoExistente);
     }
 
     public Produto findByCodigo(String codigo) {
@@ -56,6 +58,15 @@ public class ProdutoService {
         return produtoRepository.count();
     }
 
+    public long countProdutosPorPedido(Long pedidoId) {
+        return produtoRepository.countProdutosPorPedido(pedidoId);
+    }
+
+    public double sumPrecoProdutosPorPedido(Long pedidoId) {
+        Double total = produtoRepository.sumPrecoProdutosPorPedido(pedidoId);
+        return total != null ? total : 0.0;
+    }
+    
     public void deleteAllProdutos() {
         produtoRepository.deleteAll();
     }

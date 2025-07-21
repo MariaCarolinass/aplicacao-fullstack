@@ -9,18 +9,16 @@ import com.shop.vendasonline.model.Status;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
-
+    
     List<Pedido> findByStatus(Status status);
 
     List<Pedido> findByClienteId(Long clienteId);
 
     Pedido findByNumeroPedido(Integer numeroPedido);
-
-    long countByStatus(Status status);
     
     long countByClienteId(Long clienteId);
 
     @Query("SELECT SUM(p.preco - COALESCE(p.desconto, 0)) FROM Produto p")
     Double sumValorTotal();
-
+    
 }

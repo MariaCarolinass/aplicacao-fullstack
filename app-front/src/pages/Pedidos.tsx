@@ -8,17 +8,33 @@ export function Pedidos() {
   const [editando, setEditando] = useState<any | null>(null);
   const [clientes, setClientes] = useState<any[]>([]);
 
-  const carregarPedidos = () => {
-    PedidoService.listar().then(res => setPedidos(res.data));
+  const carregarClientes = async () => {
+    const res = await ClienteService.listar();
+    setClientes(res.data);
+    return res.data;
   };
-
-  const carregarClientes = () => {
-    ClienteService.listar().then(res => setClientes(res.data));
+  
+  const carregarPedidos = async (clientesDisponiveis: any[]) => {
+    const pedidosRes = await PedidoService.listar();
+    const pedidosComClientes = pedidosRes.data.map((pedido: any) => {
+      const clienteEncontrado = clientesDisponiveis.find(
+        (c: any) => c.id === pedido.cliente?.id || c.id === pedido.clienteId
+      );
+      return {
+        ...pedido,
+        cliente: clienteEncontrado || pedido.cliente,
+      };
+    });
+    setPedidos(pedidosComClientes);
   };
 
   useEffect(() => {
-    carregarPedidos();
-    carregarClientes();
+    const carregarDados = async () => {
+      const clientesData = await carregarClientes();
+      await carregarPedidos(clientesData);
+    };
+
+    carregarDados();
   }, []);
 
   const formatarDados = (dados: any) => {
@@ -30,16 +46,20 @@ export function Pedidos() {
     return dadosFormatados;
   };
 
-  const handleCreate = (dados: any) => {
-    PedidoService.criar(formatarDados(dados)).then(carregarPedidos);
+  const handleCreate = async (dados: any) => {
+    await PedidoService.criar(formatarDados(dados));
+    const clientesData = await ClienteService.listar();
+    setClientes(clientesData.data);
+    await carregarPedidos(clientesData.data);
   };
 
-  const handleUpdate = (dados: any) => {
+  const handleUpdate = async (dados: any) => {
     if (editando) {
-      PedidoService.atualizar(editando.id, formatarDados(dados)).then(() => {
-        setEditando(null);
-        carregarPedidos();
-      });
+      await PedidoService.atualizar(editando.id, formatarDados(dados));
+      setEditando(null);
+      const clientesData = await ClienteService.listar();
+      setClientes(clientesData.data);
+      await carregarPedidos(clientesData.data);
     }
   };
 
@@ -47,8 +67,11 @@ export function Pedidos() {
     setEditando(null);
   };
 
-  const handleDelete = (id: number) => {
-    PedidoService.deletar(id).then(carregarPedidos);
+  const handleDelete = async (id: number) => {
+    await PedidoService.deletar(id);
+    const clientesData = await ClienteService.listar();
+    setClientes(clientesData.data);
+    await carregarPedidos(clientesData.data);
   };
 
   return (
@@ -80,7 +103,7 @@ export function Pedidos() {
           </tr>
         </thead>
         <tbody>
-          {pedidos.map(pedido => (
+          {pedidos.map((pedido) => (
             <tr key={pedido.id}>
               <td className="py-2 px-4 border">{pedido.id}</td>
               <td className="py-2 px-4 border">{pedido.numeroPedido}</td>
@@ -89,8 +112,18 @@ export function Pedidos() {
               <td className="py-2 px-4 border">{pedido.status}</td>
               <td className="py-2 px-4 border">{pedido.cliente?.nome ?? 'N/A'}</td>
               <td className="py-2 px-4 border space-x-2">
-                <button onClick={() => setEditando(pedido)} className="text-blue-600">Editar</button>
-                <button onClick={() => handleDelete(pedido.id)} className="text-red-600">Excluir</button>
+                <button
+                  onClick={() => setEditando(pedido)}
+                  className="text-blue-600"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => handleDelete(pedido.id)}
+                  className="text-red-600"
+                >
+                  Excluir
+                </button>
               </td>
             </tr>
           ))}

@@ -16,7 +16,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("SELECT COUNT(p) FROM Produto p WHERE p.pedido.id = :pedidoId")
     long countProdutosPorPedido(@Param("pedidoId") Long pedidoId);
     
-    @Query("SELECT SUM(p.preco) FROM Produto p WHERE p.pedido.id = :pedidoId")
-    Double sumPrecoProdutosPorPedido(@Param("pedidoId") Long pedidoId);
+    @Query("SELECT SUM(p.preco - COALESCE(p.desconto, 0)) FROM Produto p WHERE p.pedido.id = :pedidoId")
+    Double sumPrecoProdutosPorPedido(@Param("pedidoId") Long pedidoId); 
 
 }

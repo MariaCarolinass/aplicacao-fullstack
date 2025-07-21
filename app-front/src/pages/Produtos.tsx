@@ -118,8 +118,7 @@ export function Produtos() {
           ))}
         </tbody>
       </table>
-
-      {/* Tabela resumo dos pedidos */}
+      
       <h2 className="text-lg font-bold mt-8 mb-2">Resumo por Pedido</h2>
       <table className="min-w-full bg-white border border-gray-300">
         <thead>

@@ -5,12 +5,13 @@ import org.mapstruct.Mapping;
 import com.shop.vendasonline.dto.ProdutoDTO;
 import com.shop.vendasonline.model.Produto;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = PedidoMapper.class)
 public interface ProdutoMapper {
-    
-    ProdutoDTO toDto(Produto entity);
-    
-    @Mapping(target = "pedido", ignore = true)
-    Produto toEntity(ProdutoDTO dto);
 
+    @Mapping(source = "pedido.numeroPedido", target = "numeroPedido")
+    @Mapping(source = "pedido.cliente.id", target = "clienteId")
+    ProdutoDTO toDto(Produto entity);
+
+    Produto toEntity(ProdutoDTO dto);
+    
 }

@@ -10,8 +10,10 @@ public interface VendaMapper {
     
     @Mapping(source = "pedido.numeroPedido", target = "numeroPedido")
     @Mapping(source = "pedido.cliente.id", target = "clienteId")
+    @Mapping(source = "pedido.cliente.nome", target = "clienteNome")
     VendaDTO toDto(Venda entity);
     
+    @Mapping(target = "pedido", ignore = true)
     Venda toEntity(VendaDTO dto);
 
 }

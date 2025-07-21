@@ -10,8 +10,10 @@ public interface ProdutoMapper {
 
     @Mapping(source = "pedido.numeroPedido", target = "numeroPedido")
     @Mapping(source = "pedido.cliente.id", target = "clienteId")
+    @Mapping(source = "pedido.cliente.nome", target = "clienteNome")
     ProdutoDTO toDto(Produto entity);
 
+    @Mapping(target = "pedido", ignore = true)
     Produto toEntity(ProdutoDTO dto);
     
 }

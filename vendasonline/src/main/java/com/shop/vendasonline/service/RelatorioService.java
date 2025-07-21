@@ -39,7 +39,9 @@ public class RelatorioService {
     }
 
     public List<Pedido> listarPedidosPendentes() {
-        return pedidoRepository.findByStatus(Status.EM_ANDAMENTO);
+        List<Pedido> pedidos = pedidoRepository.findByStatus(Status.EM_ANDAMENTO);
+        pedidos.forEach(p -> p.getCliente().getNome());
+        return pedidos;
     }
 
     public List<Cliente> clientesMaisAtivos(int topN) {

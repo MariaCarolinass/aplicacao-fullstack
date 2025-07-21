@@ -77,8 +77,16 @@ export function VendaForm({
           onChange={(e) => setDataVenda(e.target.value)}
           className="border px-2 py-1 w-full"
           required
+          max={new Date().toISOString().split("T")[0]}
+          onInvalid={(e) =>
+            e.currentTarget.setCustomValidity(
+              "A data da venda é obrigatória e não pode ser no futuro"
+            )
+          }
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
         />
       </div>
+
       <div className="mb-2">
         <label className="block font-medium">Data de Cancelamento</label>
         <input
@@ -86,8 +94,16 @@ export function VendaForm({
           value={dataCancelamento}
           onChange={(e) => setDataCancelamento(e.target.value)}
           className="border px-2 py-1 w-full"
+          max={new Date().toISOString().split("T")[0]}
+          onInvalid={(e) =>
+            e.currentTarget.setCustomValidity(
+              "A data de cancelamento não pode ser no futuro"
+            )
+          }
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
         />
       </div>
+
       <div className="mb-2">
         <label className="block font-medium">Motivo de Cancelamento</label>
         <input
@@ -97,6 +113,7 @@ export function VendaForm({
           className="border px-2 py-1 w-full"
         />
       </div>
+
       <div className="mb-2">
         <label className="block font-medium">Observações</label>
         <textarea
@@ -105,13 +122,18 @@ export function VendaForm({
           className="border px-2 py-1 w-full"
         />
       </div>
+
       <div className="mb-4">
-        <label className="block font-medium">Pedido</label>
+        <label className="block font-medium">Pedido *</label>
         <select
           value={pedidoId}
           onChange={(e) => setPedidoId(e.target.value)}
           className="border px-2 py-1 w-full"
           required
+          onInvalid={(e) =>
+            e.currentTarget.setCustomValidity("Selecione um pedido")
+          }
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
         >
           <option value="">-- Selecione um pedido --</option>
           {pedidos.map((pedido) => (

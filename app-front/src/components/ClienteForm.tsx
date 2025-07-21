@@ -64,6 +64,10 @@ export function ClienteForm({
           onChange={(e) => setNome(e.target.value)}
           className="border px-2 py-1 w-full"
           required
+          onInvalid={(e) =>
+            e.currentTarget.setCustomValidity("O nome é obrigatório")
+          }
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
         />
       </div>
 
@@ -75,6 +79,15 @@ export function ClienteForm({
           onChange={(e) => setEmail(e.target.value)}
           className="border px-2 py-1 w-full"
           required
+          onInvalid={(e) => {
+            const input = e.currentTarget;
+            if (!input.validity.valueMissing && !input.validity.valid) {
+              input.setCustomValidity("Email inválido");
+            } else {
+              input.setCustomValidity("O e-mail é obrigatório");
+            }
+          }}
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
         />
       </div>
 
@@ -84,8 +97,16 @@ export function ClienteForm({
           type="text"
           value={telefone}
           onChange={(e) => setTelefone(e.target.value)}
+          pattern="\d{11}"
+          title="Telefone deve conter 11 dígitos, sem espaços, traços ou parênteses"
           className="border px-2 py-1 w-full"
           required
+          onInvalid={(e) =>
+            e.currentTarget.setCustomValidity(
+              "Telefone deve conter 11 dígitos, sem espaços, traços ou parênteses"
+            )
+          }
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
         />
       </div>
 

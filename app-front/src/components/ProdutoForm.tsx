@@ -81,6 +81,10 @@ export function ProdutoForm({
           onChange={(e) => setCodigo(e.target.value)}
           className="border px-2 py-1 w-full"
           required
+          onInvalid={(e) =>
+            e.currentTarget.setCustomValidity("O código é obrigatório")
+          }
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
         />
       </div>
 
@@ -92,6 +96,10 @@ export function ProdutoForm({
           onChange={(e) => setNome(e.target.value)}
           className="border px-2 py-1 w-full"
           required
+          onInvalid={(e) =>
+            e.currentTarget.setCustomValidity("O nome é obrigatório")
+          }
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
         />
       </div>
 
@@ -113,6 +121,12 @@ export function ProdutoForm({
           onChange={(e) => setPreco(Number(e.target.value))}
           className="border px-2 py-1 w-full"
           required
+          min={0}
+          step="0.01"
+          onInvalid={(e) =>
+            e.currentTarget.setCustomValidity("O preço é obrigatório")
+          }
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
         />
       </div>
 
@@ -123,16 +137,22 @@ export function ProdutoForm({
           value={desconto}
           onChange={(e) => setDesconto(Number(e.target.value))}
           className="border px-2 py-1 w-full"
+          min={0}
+          step="0.01"
         />
       </div>
 
       <div className="mb-4">
-        <label className="block font-medium">Pedido</label>
+        <label className="block font-medium">Pedido *</label>
         <select
           value={pedidoId}
           onChange={(e) => setPedidoId(e.target.value)}
           className="border px-2 py-1 w-full"
           required
+          onInvalid={(e) =>
+            e.currentTarget.setCustomValidity("Selecione um pedido")
+          }
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
         >
           <option value="">-- Selecione um pedido --</option>
           {pedidos.map((pedido) => (

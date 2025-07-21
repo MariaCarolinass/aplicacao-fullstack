@@ -79,6 +79,10 @@ export function PedidoForm({
           onChange={(e) => setNumeroPedido(e.target.value)}
           className="border px-2 py-1 w-full"
           required
+          onInvalid={(e) =>
+            e.currentTarget.setCustomValidity("O número do pedido é obrigatório")
+          }
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
         />
       </div>
 
@@ -90,6 +94,13 @@ export function PedidoForm({
           onChange={(e) => setDataPedido(e.target.value)}
           className="border px-2 py-1 w-full"
           required
+          max={new Date().toISOString().split("T")[0]}
+          onInvalid={(e) =>
+            e.currentTarget.setCustomValidity(
+              "A data do pedido não pode estar no futuro ou vazia"
+            )
+          }
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
         />
       </div>
 
@@ -120,12 +131,16 @@ export function PedidoForm({
       </div>
 
       <div className="mb-4">
-        <label className="block font-medium">Cliente</label>
+        <label className="block font-medium">Cliente *</label>
         <select
           value={clienteId}
           onChange={(e) => setClienteId(e.target.value)}
           className="border px-2 py-1 w-full"
           required
+          onInvalid={(e) =>
+            e.currentTarget.setCustomValidity("Selecione um cliente")
+          }
+          onInput={(e) => e.currentTarget.setCustomValidity("")}
         >
           <option value="">-- Selecione um cliente --</option>
           {clientes.map((cliente) => (

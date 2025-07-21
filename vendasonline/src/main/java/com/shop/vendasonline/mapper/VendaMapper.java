@@ -8,7 +8,6 @@ import com.shop.vendasonline.model.Venda;
 @Mapper(componentModel = "spring")
 public interface VendaMapper {
     
-    @Mapping(source = "pedido.id", target = "pedidoId")
     VendaDTO toDto(Venda entity);
 
     @Mapping(target = "pedido", ignore = true)

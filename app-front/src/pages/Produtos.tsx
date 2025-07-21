@@ -44,8 +44,8 @@ export function Produtos() {
   };
 
   useEffect(() => {
-    carregarProdutos();
     carregarPedidos();
+    carregarProdutos();
   }, []);
 
   useEffect(() => {

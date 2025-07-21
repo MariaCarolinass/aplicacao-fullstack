@@ -22,6 +22,10 @@ public class ProdutoDTO {
 
     private Double desconto;
 
+    private Long clienteId;
+
+    private Integer numeroPedido;
+
     private PedidoDTO pedido;
 
 }

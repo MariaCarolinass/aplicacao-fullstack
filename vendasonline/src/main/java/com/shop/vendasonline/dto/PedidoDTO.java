@@ -22,6 +22,10 @@ public class PedidoDTO {
 
     private Status status;
 
+    private Long clienteId;
+    
+    private String clienteNome;
+
     private ClienteDTO cliente;
     
 }

@@ -21,6 +21,10 @@ public class VendaDTO {
     
     private String observacoes;
     
+    private Long clienteId;
+
+    private Integer numeroPedido;
+
     private PedidoDTO pedido;
 
 }

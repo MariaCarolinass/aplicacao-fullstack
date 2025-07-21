@@ -54,16 +54,18 @@ export function Produtos() {
     }
   }, [pedidos]);
 
-  const handleCreate = (dados: any) => {
-    ProdutoService.criar(dados).then(carregarProdutos);
+  const handleCreate = async (dados: any) => {
+    await ProdutoService.criar(dados);
+    carregarProdutos();
+    carregarResumoPedidos();
   };
 
-  const handleUpdate = (dados: any) => {
+  const handleUpdate = async (dados: any) => {
     if (editando) {
-      ProdutoService.atualizar(editando.id, dados).then(() => {
-        setEditando(null);
-        carregarProdutos();
-      });
+      await ProdutoService.atualizar(editando.id, dados);
+      setEditando(null);
+      carregarProdutos();
+      carregarResumoPedidos(); 
     }
   };
 
@@ -71,8 +73,10 @@ export function Produtos() {
     setEditando(null);
   };
 
-  const handleDelete = (id: number) => {
-    ProdutoService.deletar(id).then(carregarProdutos);
+  const handleDelete = async (id: number) => {
+    await ProdutoService.deletar(id);
+    carregarProdutos();
+    carregarResumoPedidos();
   };
 
   return (

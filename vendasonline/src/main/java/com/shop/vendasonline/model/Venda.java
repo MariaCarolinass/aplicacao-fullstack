@@ -44,7 +44,7 @@ public class Venda {
 
     @OneToOne(optional = false)
     @JoinColumn(name = "pedido_id", nullable = false, unique = true)
-    @JsonIgnoreProperties({"pedidos"})
+    @JsonIgnoreProperties({"produtos", "venda"})
     private Pedido pedido;
     
 }

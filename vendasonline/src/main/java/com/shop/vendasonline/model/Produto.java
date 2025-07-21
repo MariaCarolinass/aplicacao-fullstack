@@ -46,7 +46,7 @@ public class Produto {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "pedido_id", nullable = false)
-    @JsonIgnoreProperties({"pedidos"})
+    @JsonIgnoreProperties({"produtos", "venda"})
     private Pedido pedido;
 
 }

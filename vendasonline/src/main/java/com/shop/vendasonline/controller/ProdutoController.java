@@ -2,7 +2,6 @@ package com.shop.vendasonline.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -62,8 +61,12 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Produto>> listarTodos() {
-        return ResponseEntity.ok(produtoService.findAllProdutos());
+    public ResponseEntity<List<ProdutoDTO>> listarTodos() {
+        List<Produto> produtos = produtoService.findAllProdutos();
+        List<ProdutoDTO> produtosDTO = produtos.stream()
+            .map(produtoMapper::toDto)
+            .toList();
+        return ResponseEntity.ok(produtosDTO);
     }
     
     @GetMapping("/count-produtos-por-pedido/{pedidoId}")

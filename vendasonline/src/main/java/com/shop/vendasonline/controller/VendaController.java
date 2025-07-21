@@ -2,7 +2,6 @@ package com.shop.vendasonline.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -85,8 +84,12 @@ public class VendaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Venda>> listarTodas() {
-        return ResponseEntity.ok(vendaService.findAllVendas());
+    public ResponseEntity<List<VendaDTO>> listarTodas() {
+        List<Venda> vendas = vendaService.findAllVendas();
+        List<VendaDTO> vendaDTO = vendas.stream()
+            .map(vendaMapper::toDto)
+            .toList();
+        return ResponseEntity.ok(vendaDTO);
     }
 
     @GetMapping("/paginado")

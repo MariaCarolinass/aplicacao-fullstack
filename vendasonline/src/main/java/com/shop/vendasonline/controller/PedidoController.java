@@ -2,6 +2,7 @@ package com.shop.vendasonline.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -62,8 +63,12 @@ public class PedidoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Pedido>> listarTodos() {
-        return ResponseEntity.ok(pedidoService.findAllPedidos());
+    public ResponseEntity<List<PedidoDTO>> listarTodos() {
+        List<Pedido> pedidos = pedidoService.findAllPedidos();
+        List<PedidoDTO> dtoList = pedidos.stream()
+            .map(pedidoMapper::toDto)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoList);
     }
 
     @GetMapping("/paginado")
@@ -118,11 +123,6 @@ public class PedidoController {
     @GetMapping("/contar")
     public ResponseEntity<Long> contarTodos() {
         return ResponseEntity.ok(pedidoService.count());
-    }
-
-    @GetMapping("/contar/status")
-    public ResponseEntity<Long> contarPorStatus(@RequestParam Status status) {
-        return ResponseEntity.ok(pedidoService.countByStatus(status));
     }
 
     @GetMapping("/contar/cliente/{clienteId}")

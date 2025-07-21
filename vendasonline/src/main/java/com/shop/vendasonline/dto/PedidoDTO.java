@@ -1,7 +1,7 @@
 package com.shop.vendasonline.dto;
 
 import java.time.LocalDate;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.shop.vendasonline.model.Status;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
@@ -16,13 +16,12 @@ public class PedidoDTO {
 
     @NotNull(message = "A data do pedido não pode ser nula")
     @PastOrPresent(message = "A data do pedido não pode estar no futuro")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataPedido;
     
     private String observacoes;
 
-    private String status;
+    private Status status;
 
-    private Long clienteId;
-
+    private ClienteDTO cliente;
+    
 }

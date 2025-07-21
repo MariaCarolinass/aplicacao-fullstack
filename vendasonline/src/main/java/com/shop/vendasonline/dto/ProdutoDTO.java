@@ -22,6 +22,6 @@ public class ProdutoDTO {
 
     private Double desconto;
 
-    private Long pedidoId;
+    private PedidoDTO pedido;
 
 }

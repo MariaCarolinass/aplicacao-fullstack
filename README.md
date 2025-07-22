@@ -17,7 +17,8 @@ Permite que vendedores registrem pedidos, acompanhem status e acessem relatório
 - [📦 Funcionalidades](#-funcionalidades)  
 - [📝 Cadastro de Dados](#-cadastro-de-dados)  
 - [⚙️ Como Executar](#️-como-executar)  
-- [🛠️ Configuração](#️-configuração)  
+- [🛠️ Configuração](#️-configuração)
+- [🗃️ Banco de Dados](#%EF%B8%8F-banco-de-dados)
 - [🔐 Segurança](#-segurança)  
 - [📄 Licença](#-licença)
 
@@ -196,6 +197,24 @@ services:
 ```
 
 Em produção (Railway, Render etc.), defina `VITE_API_BASE_URL` diretamente no painel de variáveis da plataforma.
+
+---
+
+## 🗃️ Banco de Dados
+
+A aplicação utiliza o banco de dados **H2** em memória no ambiente de desenvolvimento, permitindo testes rápidos e simples sem necessidade de instalação adicional.
+
+### 🔍 Características
+
+- Banco leve, relacional, baseado em Java.
+- Inicializado automaticamente com a aplicação.
+- Credenciais padrão (configuráveis no `application.properties`):
+
+### 🧱 Estrutura de Tabelas
+
+O banco é gerado automaticamente com base nas entidades JPA definidas em `vendasonline/src/main/java/com/shop/vendasonline/model/`, incluindo:
+
+> Em produção, você pode facilmente alterar para outro banco (PostgreSQL, MySQL, etc.) editando as configurações no `application.properties` e adicionando a dependência correspondente no `pom.xml`.
 
 ---
 

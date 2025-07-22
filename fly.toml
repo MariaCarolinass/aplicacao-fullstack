@@ -9,7 +9,7 @@ primary_region = "ord"  # Oregon
   JAVA_OPTS = "-Xmx512m"
 
 [[services]]
-  internal_port = 8080
+  internal_port = 8081
   protocol = "tcp"
 
   [[services.ports]]

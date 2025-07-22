@@ -1,0 +1,33 @@
+app = "aplicacao-fullstack"
+primary_region = "ord"  # Oregon
+
+[build]
+  dockerfile = "./Dockerfile"
+
+[env]
+  VITE_API_BASE_URL = "https://aplicacao-fullstack.fly.dev/api/v1"
+  JAVA_OPTS = "-Xmx512m"
+
+[[services]]
+  internal_port = 8080
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [services.concurrency]
+    type = "requests"
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.health_checks]]
+    path = "/"
+    interval = "10s"
+    timeout = "2s"
+    grace_period = "10s"
+    restart_limit = 5

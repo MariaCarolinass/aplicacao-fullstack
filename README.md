@@ -55,7 +55,6 @@ aplicacao-fullstack/
 │       └── pom.xml                   # Dependências do projeto Spring Boot
 ├── Dockerfile                        # Docker para backend
 ├── docker-compose.yml                # Sobe backend + frontend integrados
-├── render.yaml                       # Configurações de deploy para o Render
 ├── LICENSE
 └── README.md 
 ```

@@ -90,45 +90,47 @@ export function Pedidos() {
         isEditing={!!editando}
       />
 
-      <table className="min-w-full bg-white border border-gray-300 mt-4">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="py-2 px-4 border">ID</th>
-            <th className="py-2 px-4 border">Número do Pedido</th>
-            <th className="py-2 px-4 border">Data</th>
-            <th className="py-2 px-4 border">Observações</th>
-            <th className="py-2 px-4 border">Status</th>
-            <th className="py-2 px-4 border">Cliente</th>
-            <th className="py-2 px-4 border">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pedidos.map((pedido) => (
-            <tr key={pedido.id}>
-              <td className="py-2 px-4 border">{pedido.id}</td>
-              <td className="py-2 px-4 border">{pedido.numeroPedido}</td>
-              <td className="py-2 px-4 border">{pedido.dataPedido}</td>
-              <td className="py-2 px-4 border">{pedido.observacoes}</td>
-              <td className="py-2 px-4 border">{pedido.status}</td>
-              <td className="py-2 px-4 border">{pedido.cliente?.nome ?? 'N/A'}</td>
-              <td className="py-2 px-4 border space-x-2">
-                <button
-                  onClick={() => setEditando(pedido)}
-                  className="text-blue-600"
-                >
-                  Editar
-                </button>
-                <button
-                  onClick={() => handleDelete(pedido.id)}
-                  className="text-red-600"
-                >
-                  Excluir
-                </button>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-300 mt-4">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="py-2 px-4 border">ID</th>
+              <th className="py-2 px-4 border">Número do Pedido</th>
+              <th className="py-2 px-4 border">Data</th>
+              <th className="py-2 px-4 border">Observações</th>
+              <th className="py-2 px-4 border">Status</th>
+              <th className="py-2 px-4 border">Cliente</th>
+              <th className="py-2 px-4 border">Ações</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {pedidos.map((pedido) => (
+              <tr key={pedido.id}>
+                <td className="py-2 px-4 border">{pedido.id}</td>
+                <td className="py-2 px-4 border">{pedido.numeroPedido}</td>
+                <td className="py-2 px-4 border">{pedido.dataPedido}</td>
+                <td className="py-2 px-4 border">{pedido.observacoes}</td>
+                <td className="py-2 px-4 border">{pedido.status}</td>
+                <td className="py-2 px-4 border">{pedido.cliente?.nome ?? 'N/A'}</td>
+                <td className="py-2 px-4 border space-x-2">
+                  <button
+                    onClick={() => setEditando(pedido)}
+                    className="text-blue-600"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleDelete(pedido.id)}
+                    className="text-red-600"
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

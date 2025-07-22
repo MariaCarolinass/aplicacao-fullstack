@@ -137,8 +137,9 @@ As ações são enviadas por meio de chamadas REST ao backend em Spring Boot.
 docker-compose up --build
 ```
 
-- API disponibilizada em: [http://localhost:8081/](http://localhost:8081/) 
+- API disponibilizada em: [http://localhost:8081/](http://localhost:8081/)
 - A interface React será carregada estaticamente nesse mesmo endereço.
+- Rode `npm install` para fazer modificações no código do front.
 
 ### 🔧 Rodando Manualmente (Separado)
 

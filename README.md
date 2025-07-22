@@ -8,7 +8,7 @@ Permite que vendedores registrem pedidos, acompanhem status e acessem relatório
 
 **Acesse a aplicação:**
 
-🔗 [https://vendasonline-pjb0.onrender.com/](https://vendasonline-pjb0.onrender.com/)
+🔗 [https://aplicacao-fullstack.vercel.app/](https://aplicacao-fullstack.vercel.app/)
 
 ---
 
@@ -166,7 +166,7 @@ VITE_API_BASE_URL=http://localhost:8081/api/v1
 - `.env.production`
 
 ```env
-VITE_API_BASE_URL=https://vendasonline-pjb0.onrender.com/api/v1
+VITE_API_BASE_URL=https://aplicacao-fullstack-production.up.railway.app/api/v1
 ```
 
 > ⚠️ **Importante:** Nunca comite arquivos `.env` com dados sensíveis. Adicione-os ao `.gitignore`.

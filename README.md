@@ -6,9 +6,20 @@ Permite que vendedores registrem pedidos, acompanhem status e acessem relatório
 
 ![Página Principal da Aplicação](app-front/src/assets/telainicial.png)
 
-**Acesse a aplicação:**
+🔗 **Acesse a aplicação:**
+[https://aplicacao-fullstack.vercel.app/](https://aplicacao-fullstack.vercel.app/)
 
-🔗 [https://aplicacao-fullstack.vercel.app/](https://aplicacao-fullstack.vercel.app/)
+---
+## 📑 Sumário
+
+- [📂 Estrutura do Projeto](#-estrutura-do-projeto)  
+- [🚀 Tecnologias Utilizadas](#-tecnologias-utilizadas)  
+- [📦 Funcionalidades](#-funcionalidades)  
+- [📝 Cadastro de Dados](#-cadastro-de-dados)  
+- [⚙️ Como Executar](#️-como-executar)  
+- [🛠️ Configuração](#️-configuração)  
+- [🔐 Segurança](#-segurança)  
+- [📄 Licença](#-licença)
 
 ---
 
@@ -34,7 +45,7 @@ aplicacao-fullstack/
 │   ├── postcss.config.js
 │   ├── tailwind.config.js
 │   ├── tsconfig.json
-│   └── vite.config.ts                # Configuração Vite (proxy etc.)
+│   └── vite.config.ts                # Configuração Vite e Proxy
 │
 ├── vendasonline/                     # Backend Java Spring Boot
 │   └── src/                          
@@ -54,7 +65,7 @@ aplicacao-fullstack/
 │       ├── mvnw, mvnw.cmd            # Wrapper Maven
 │       └── pom.xml                   # Dependências do projeto Spring Boot
 ├── Dockerfile                        # Docker para backend
-├── docker-compose.yml                # Sobe backend + frontend integrados
+├── docker-compose.yml                # Orquestra frontend e backend
 ├── LICENSE
 └── README.md 
 ```
@@ -104,9 +115,9 @@ aplicacao-fullstack/
 
 Use a interface do front-end para:
 
-- Cadastrar e gerenciar clientes, produtos, pedidos e vendas
-- Gerar relatórios de desempenho e status
-- Visualizar o status e resumo de vendas em tempo real
+- Cadastrar e gerenciar **clientes, produtos, pedidos e vendas**
+- Gerar **relatórios de desempenho e status**
+- Visualizar **status de pedidos** e **resumos de vendas em tempo real**
 
 As ações são enviadas por meio de chamadas REST ao backend em Spring Boot.
 
@@ -149,33 +160,27 @@ npm run dev
 
 ---
 
-## 🛠️ Instalação e Configuração
+## 🛠️ Configuração
 
-### Variáveis de ambiente
+### 🌐 Variáveis de Ambiente
 
-O projeto utiliza variáveis de ambiente para configurar a URL base da API no front-end, facilitando o uso em diferentes ambientes (desenvolvimento local, produção no Render etc).
+O front-end utiliza variáveis de ambiente para configurar a URL base da API, facilitando o uso em ambientes distintos (desenvolvimento local, produção etc).
 
-Crie os arquivos `.env` dentro da pasta `app-front`:
+Crie os arquivos dentro de `app-front`:
 
-- `.env.development`
-
+#### `.env.development`
 ```env
 VITE_API_BASE_URL=http://localhost:8081/api/v1
 ```
 
-- `.env.production`
-
+#### `.env.production`
 ```env
 VITE_API_BASE_URL=https://aplicacao-fullstack-production.up.railway.app/api/v1
 ```
 
-> ⚠️ **Importante:** Nunca comite arquivos `.env` com dados sensíveis. Adicione-os ao `.gitignore`.
+> ⚠️ **Importante:** Nunca comite arquivos `.env` com dados sensíveis. Adicione ao `.gitignore`.
 
----
-
-### Docker
-
-No arquivo `docker-compose.yml`, você pode passar a variável de ambiente para o build do front-end:
+### ⚙️ Docker: Variáveis no `docker-compose.yml`
 
 ```yaml
 services:
@@ -190,17 +195,17 @@ services:
       - "8081:8081"
 ```
 
-No Render ou outra plataforma de hospedagem, defina a variável `VITE_API_BASE_URL` pelo painel da aplicação.
+Em produção (Railway, Render etc.), defina `VITE_API_BASE_URL` diretamente no painel de variáveis da plataforma.
 
 ---
 
 ## 🔐 Segurança
 
-- A configuração CORS permite chamadas seguras do front-end (http://localhost:5173)
-- Fácil extensão para produção com autenticação JWT ou OAuth2 (não implementado nesta versão)
+- Configuração CORS permite chamadas seguras entre front-end e back-end.
+- Estrutura preparada para futura integração com autenticação via JWT ou OAuth2 (não implementado nesta versão).
 
 ---
 
 ## 📄 Licença
 
-Este projeto está licenciado sob a licença MIT.
+Este projeto está licenciado sob a [licença MIT](LICENSE).

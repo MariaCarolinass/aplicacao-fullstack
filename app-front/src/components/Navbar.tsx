@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export function Navbar() {
   return (
-    <nav className="bg-blue-600 text-white p-4 flex gap-4">
+    <nav className="bg-blue-600 text-white p-4 flex flex-wrap justify-center gap-2 sm:gap-4 text-sm sm:text-base">
       <Link to="/" className="hover:underline">Página Inicial</Link>
       <Link to="/clientes" className="hover:underline">Clientes</Link>
       <Link to="/pedidos" className="hover:underline">Pedidos</Link>
@@ -12,3 +12,4 @@ export function Navbar() {
     </nav>
   );
 }
+

@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: aplicacao-fullstack
+    env: docker
+    region: oregon
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: JAVA_OPTS
+        value: -Xmx512m
+    healthCheckPath: /

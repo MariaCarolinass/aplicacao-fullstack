@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'http://localhost:8081/api/v1',
+  baseURL: 'https://vendasonline-pjb0.onrender.com/api/v1',
 });

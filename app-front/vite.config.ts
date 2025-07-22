@@ -6,10 +6,10 @@ export default defineConfig({
   server: {
     proxy: {
       '/api/v1': {
-        target: 'https://vendasonline-pjb0.onrender.com/api/v1',
+        target: 'http://localhost:8081',
         changeOrigin: true,
-        secure: false
-      }
-    }
-  }
+        secure: false,
+      },
+    },
+  },
 })

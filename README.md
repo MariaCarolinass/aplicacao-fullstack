@@ -4,6 +4,12 @@ Aplicação web **Full Stack** para controle de vendas, pedidos, produtos e clie
 
 Permite que vendedores registrem pedidos, acompanhem status e acessem relatórios de desempenho. Tudo é executado com um único comando via **Docker Compose**.
 
+![Página Principal da Aplicação](app-front/src/assets/telainicial.png)
+
+**Acesse a aplicação:**
+
+🔗 [https://vendasonline-pjb0.onrender.com/](https://vendasonline-pjb0.onrender.com/)
+
 ---
 
 ## 📂 Estrutura do Projeto
@@ -49,6 +55,7 @@ aplicacao-fullstack/
 │       └── pom.xml                   # Dependências do projeto Spring Boot
 ├── Dockerfile                        # Docker para backend
 ├── docker-compose.yml                # Sobe backend + frontend integrados
+├── render.yaml                       # Configurações de deploy para o Render
 ├── LICENSE
 └── README.md 
 ```
@@ -94,6 +101,18 @@ aplicacao-fullstack/
 
 ---
 
+## 📝 Cadastro de dados
+
+Use a interface do front-end para:
+
+- Cadastrar e gerenciar clientes, produtos, pedidos e vendas
+- Gerar relatórios de desempenho e status
+- Visualizar o status e resumo de vendas em tempo real
+
+As ações são enviadas por meio de chamadas REST ao backend em Spring Boot.
+
+---
+
 ## ⚙️ Como Executar
 
 ### ✅ Requisitos
@@ -131,15 +150,48 @@ npm run dev
 
 ---
 
-## 📝 Cadastro de dados
+## 🛠️ Instalação e Configuração
 
-Use a interface do front-end para:
+### Variáveis de ambiente
 
-- Cadastrar e gerenciar clientes, produtos, pedidos e vendas
-- Gerar relatórios de desempenho e status
-- Visualizar o status e resumo de vendas em tempo real
+O projeto utiliza variáveis de ambiente para configurar a URL base da API no front-end, facilitando o uso em diferentes ambientes (desenvolvimento local, produção no Render etc).
 
-As ações são enviadas por meio de chamadas REST ao backend em Spring Boot.
+Crie os arquivos `.env` dentro da pasta `app-front`:
+
+- `.env.development`
+
+```env
+VITE_API_BASE_URL=http://localhost:8081/api/v1
+```
+
+- `.env.production`
+
+```env
+VITE_API_BASE_URL=https://vendasonline-pjb0.onrender.com/api/v1
+```
+
+> ⚠️ **Importante:** Nunca comite arquivos `.env` com dados sensíveis. Adicione-os ao `.gitignore`.
+
+---
+
+### Docker
+
+No arquivo `docker-compose.yml`, você pode passar a variável de ambiente para o build do front-end:
+
+```yaml
+services:
+  app:
+    build:
+      context: .
+      args:
+        VITE_API_BASE_URL: http://localhost:8081/api/v1
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8081/api/v1
+    ports:
+      - "8081:8081"
+```
+
+No Render ou outra plataforma de hospedagem, defina a variável `VITE_API_BASE_URL` pelo painel da aplicação.
 
 ---
 

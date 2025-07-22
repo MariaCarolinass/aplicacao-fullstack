@@ -1,8 +1,8 @@
 app = "aplicacao-fullstack"
-primary_region = "ord"  # Oregon
+primary_region = "ord"
 
 [build]
-  dockerfile = "./Dockerfile"
+  dockerfile = "Dockerfile"
 
 [env]
   VITE_API_BASE_URL = "https://aplicacao-fullstack.fly.dev/api/v1"

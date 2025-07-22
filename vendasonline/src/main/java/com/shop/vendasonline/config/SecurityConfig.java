@@ -32,6 +32,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(List.of(
             "http://localhost:*",
+            "https://aplicacao-fullstack.vercel.app/",
             "https://aplicacao-fullstack-production.up.railway.app/"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
